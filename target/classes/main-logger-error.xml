@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:logger="http://www.mulesoft.org/schema/mule/logger" 
+  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+  xmlns="http://www.mulesoft.org/schema/mule/core" 
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+		                http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+                        http://www.mulesoft.org/schema/mule/logger http://www.mulesoft.org/schema/mule/logger/current/mule-logger.xsd">
+  
+  
+  
+  <error-handler name="main-logger-error-handler">
+  
+    <on-error-propagate type="APIKIT:BAD_REQUEST">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="f16e4f94-94a9-449f-98b8-10d187f85f95"
+        config-ref="loggerConfig"
+        message='#[if (isEmpty(error.muleMessage.payload) and isEmpty(error.description)) "The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing)." else if (isEmpty(error.muleMessage.payload)) error.description else error.muleMessage.payload]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+      
+      <set-variable 
+        doc:name="httpStatus - 400" 
+        doc:id="b85c9141-4685-477d-be12-bcca804cc525" 
+        variableName="httpStatus"
+        value="400">
+      </set-variable>
+    </on-error-propagate>
+    
+    
+    
+    <on-error-propagate type="APIKIT:NOT_FOUND">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="1610524e-5561-46ab-8769-9b8d58847947"
+        config-ref="loggerConfig" 
+        message='#["We could not find the resource you requested or Required URI Params field not specified."]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+
+      <set-variable 
+        doc:name="httpStatus - 404" 
+        doc:id="edf58cbb-752a-4f58-bb39-6b26c02ada3d" 
+        variableName="httpStatus"
+        value="404">
+      </set-variable>
+    </on-error-propagate>
+    
+    
+    
+    <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="38607d1b-f5e6-4acc-a0c8-f96d7cd7e46d"
+        config-ref="loggerConfig" 
+        message='#["The method received in the request-line is known by the origin server but not supported by the target resource."]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+
+      <set-variable 
+        doc:name="httpStatus - 405" 
+        doc:id="88f70edf-4b2b-4cd2-8989-eef610af4968" 
+        variableName="httpStatus"
+        value="405">
+      </set-variable>
+    </on-error-propagate>
+    
+    
+    
+    <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="1f785df8-6c78-4dda-8b93-c36b41dc2605"
+        config-ref="loggerConfig" 
+        message='#["The origin server is refusing to service the request because the payload is in a format not supported by this method on the target resource."]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+
+      <set-variable 
+        doc:name="httpStatus - 406" 
+        doc:id="7167e6e6-ebcf-4fc1-95a2-07bd26b09ab6" 
+        variableName="httpStatus"
+        value="406">
+      </set-variable>
+    </on-error-propagate>
+    
+    
+    
+    <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="4863cd3c-f5a5-42cf-a624-6d7175e8b687"
+        config-ref="loggerConfig" 
+        message='#["The client sent a type of request which is not supported by the requested endpoint. Verify that your requests Content-Type matches the requested endpoint accepted content."]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+
+      <set-variable 
+        doc:name="httpStatus - 415" 
+        doc:id="f7a5607b-679c-4737-949c-6ac5d5ce4127" 
+        variableName="httpStatus"
+        value="415">
+      </set-variable>
+    </on-error-propagate>
+    
+    
+    
+    <on-error-propagate type="EXPRESSION">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="f6e5e805-cc12-4cab-aefd-9c72cb56505b"
+        config-ref="loggerConfig" 
+        message='#["The server encountered an unexpected condition that prevented it from fulfilling the request."]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+
+      <set-variable 
+        doc:name="httpStatus - 500" 
+        doc:id="87cd3ed5-7be9-4d2e-95ae-9516ca5cc8ab" 
+        variableName="httpStatus"
+        value="500">
+      </set-variable>
+    </on-error-propagate>
+    
+    
+    
+    <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="b898c779-4994-4946-9e58-73e6627fbfb9"
+        config-ref="loggerConfig" 
+        message='#["The server does not support the functionality required to fulfill the request."]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+
+      <set-variable 
+        doc:name="httpStatus - 501" 
+        doc:id="26028625-10bf-4e74-836f-9d5cf5f943f8" 
+        variableName="httpStatus"
+        value="501">
+      </set-variable>
+    </on-error-propagate>
+    
+    
+    
+    <on-error-propagate type="HTTP:BASIC_AUTHENTICATION">
+      <logger:logger-payload 
+        doc:name="Logger payload" 
+        doc:id="1cd05683-d0d9-40d3-ad0e-a6f5e151b710"
+        config-ref="loggerConfig" 
+        message='#["No credentials are provided, or the provided credentials are refused."]'
+        tracePoint="EXCEPTION" 
+        priority="ERROR" 
+        category="com.brunosouzas.api.log">
+      </logger:logger-payload>
+
+      <set-variable 
+        doc:name="httpStatus - 401" 
+        doc:id="a579052b-c76a-4bfd-95ed-8dcb38d4c350" 
+        variableName="httpStatus"
+        value="401">
+      </set-variable>
+    </on-error-propagate>
+  </error-handler>
+</mule>

@@ -1,0 +1,37 @@
+{
+  "configs": [
+    "main-logger-error.xml",
+    "main-eapi-error.xml",
+    "console-error.xml",
+    "health-api.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.brunosouzas.api:app-common:2.0.1",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "health-api.xml",
+        "console-error.xml",
+        "main-logger-error.xml",
+        "main-eapi-error.xml",
+        "dw/commonError/500.dwl",
+        "dw/commonError/501.dwl",
+        "dw/commonError/400.dwl",
+        "dw/commonError/401.dwl",
+        "dw/commonError/415.dwl",
+        "dw/commonError/406.dwl",
+        "dw/commonError/405.dwl",
+        "dw/commonError/404.dwl"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

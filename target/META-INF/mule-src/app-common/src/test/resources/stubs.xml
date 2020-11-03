@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule
+	xmlns:logger="http://www.mulesoft.org/schema/mule/logger"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core 
+						http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+						http://www.mulesoft.org/schema/mule/core 
+						http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+						http://www.mulesoft.org/schema/mule/http 
+						http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/logger http://www.mulesoft.org/schema/mule/logger/current/mule-logger.xsd">
+
+
+
+	<http:listener-config
+		name="apiHttpListenerConfig"
+		doc:name="HTTP Listener config"
+		doc:id="83719307-6058-4be8-90dc-63c4fcb772be">
+		<http:listener-connection
+			host="0.0.0.0"
+			port="8081" />
+	</http:listener-config>
+
+
+
+	<logger:config name="loggerConfig" doc:name="Logger Config" doc:id="d444a546-0486-4171-a91f-639a2c43801f" applicationName="app-common" applicationVersion="1.0.0" environment="dev" />
+  <sub-flow name="check-all-other-dependencies-are-alive" doc:id="b575c28f-c2c1-4ed8-b3bc-4be519c3043f">
+		<set-payload
+			value="#['UP']"
+			doc:name="Set Payload"
+			doc:id="89b72f91-fd6a-437e-a238-daf3943a1435" />
+	</sub-flow>
+
+
+</mule>
